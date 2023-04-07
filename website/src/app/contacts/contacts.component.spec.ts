@@ -26,4 +26,6 @@ describe('ContactsComponent Tests', () => {
 
         expect(contactsComponent.contacts.length).toBe(1);
     });
+
+    
 });
