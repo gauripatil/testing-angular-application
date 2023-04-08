@@ -46,6 +46,11 @@ describe('Contact EditComponent Test', () => {
     let component: ContactEditComponent;
     let rootElement: DebugElement;
 
+    
+    // A test fake is an object you use in a test to substitute for the real thing. 
+    // A mock is a fake that simulates the real object and keeps track of when it’s called and what arguments it receives.
+    // A stub is a simple fake with no logic, and it always returns the same value.
+
     const contactServiceStub = {
         contact: {
             id: 1,
@@ -65,9 +70,45 @@ describe('Contact EditComponent Test', () => {
             component.contact = contact;
         }
     }
+
+    // beforeEach sets up your TestBed configuration
+    beforeEach(() => { 
+        TestBed.configureTestingModule({
+            declarations: [ContactEditComponent, FavoriteIconDirective, InvalidEmailModalComponent, InvalidPhoneNumberModalComponent],
+            imports: [
+                AppMaterialModule,
+                FormsModule,
+                NoopAnimationsModule,
+                RouterTestingModule
+            ],
+            providers: [{
+                provide: ContactService,
+                useValue: contactServiceStub
+            }]
+        })
+
+        TestBed.overrideModule(BrowserDynamicTestingModule, {
+            set: {
+                entryComponents: [InvalidEmailModalComponent, InvalidPhoneNumberModalComponent]
+            }
+        })
+    });
+
+    beforeEach(() => {
+        // fixture variable stores the component-like object from the TestBed.createComponent method that you can use for debugging and testing
+        fixture = TestBed.createComponent(ContactEditComponent);
+
+        // component variable holds a component that you get from your fixture using the componentInstance property
+        component = fixture.componentInstance;
+
+        // detectChanges method triggers a change-detection cycle for the component; 
+        // you need to call it after initializing a component or changing a data - bound property value. 
+        // After calling detectChanges, the updates to your component will be rendered in the DOM.
+        fixture.detectChanges();
+
+        // 
+        rootElement = fixture.debugElement;
+    })
 });
 
-// A test fake is an object you use in a test to substitute for the real thing. 
-// A mock is a fake that simulates the real object and keeps track of when it’s called and what arguments it receives.
-// A stub is a simple fake with no logic, and it always returns the same value.
  
