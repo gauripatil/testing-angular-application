@@ -36,7 +36,7 @@ import { FormsModule } from '@angular/forms';
 // remaining dependency statements
 import { Contact, ContactService, FavoriteIconDirective, InvalidEmailModalComponent, InvalidPhoneNumberModalComponent } from
   '../shared';
-import { AppMaterialModule } from '../app.material.module';
+import { AppMaterialModule } from '../../app.material.module';
 import { ContactEditComponent } from './contact-edit.component';
 
 import '../../../material-app-theme.scss';
@@ -108,6 +108,35 @@ describe('Contact EditComponent Test', () => {
 
         // 
         rootElement = fixture.debugElement;
+    });
+
+    describe('saveContact() test ', () => {
+        it('should display contact name after contact set', fakeAsync(() => {
+            // The contact object you’ll save
+            const contact = {
+                id: 1,
+                name: 'lorace'
+            }
+
+            // Sets isLoading to false to hide the progress bar
+            component.isLoading = false;
+
+            // Saves the contact object
+            component.saveContact(contact);
+
+            // Uses the detectChanges method to trigger change detection
+            fixture.detectChanges();
+
+            // Gets the nameInput form field
+            const nameInput = rootElement.query(By.css('.contact-name'));
+
+            // Simulates the passage of time using tick
+            tick();
+
+            // Checks to see if the name property has been set correctly
+            expect(nameInput.nativeElement.value).toBe('lorace');
+        }));
+
     })
 });
 
