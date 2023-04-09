@@ -137,6 +137,28 @@ describe('Contact EditComponent Test', () => {
             expect(nameInput.nativeElement.value).toBe('lorace');
         }));
 
+    });
+
+    describe('loadContact() test ', () => {
+        it('should load contact', fakeAsync(() => {
+            // Sets isLoading to false to hide the progress bar
+            component.isLoading = false;
+
+            // load the contact
+            component.loadContact();
+
+            // Uses the detectChanges method to trigger change detection 
+            fixture.detectChanges();
+
+            // Gets the nameInput form field
+            const nameInput = rootElement.query(By.css('.contact-name'));
+
+            // Simulates the passage of time using tick
+            tick();
+
+            // Checks to see if the name property has been set correctly
+            expect(nameInput.nativeElement.value).toBe('john');
+        }))
     })
 });
 
