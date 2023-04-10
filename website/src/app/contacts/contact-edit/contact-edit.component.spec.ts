@@ -157,9 +157,99 @@ describe('Contact EditComponent Test', () => {
             tick();
 
             // Checks to see if the name property has been set correctly
+            // The default contact that’s loaded has a value of john for the name property.
             expect(nameInput.nativeElement.value).toBe('john');
         }))
     })
+
+    describe('updateContact() test',() => {
+        it('should update the contact', fakeAsync(() => {
+            const newContact = {
+                id: 1,
+                name: "delia",
+                email: "delia@example.com",
+                number: "1234567890"
+            };
+
+            component.contact = {
+                id: 2,
+                name: "rhonda",
+                email: "rhonda@example.com",
+                number: "1234567890"
+            };
+
+            component.isLoading = false;
+            fixture.detectChanges();
+            const nameInput = rootElement.query(By.css('.contact-name'));
+            tick();
+            expect(nameInput.nativeElement.value).toBe('rhonda');
+        }))
+
+        it('should not update the contact if email is invalid', fakeAsync(() => {
+            const newContact = {
+                id: 1,
+                name: "london",
+                email: "london@example.",
+                number: "1234567890"
+            };
+
+            component.contact = {
+                id: 2,
+                name: 'chauncey',
+                email: 'chauncey@example.com',
+                number: '1234567890'
+            };
+
+            component.isLoading = false;
+            fixture.detectChanges();
+            const nameInput = rootElement.query(By.css('.contact-name'));
+            tick();
+            expect(nameInput.nativeElement.value).toBe('chauncey');
+        }))
+
+        it('should not update the contact if phone number is invalid', fakeAsync(() => {
+            const newContact = {
+                id: 1,
+                name: "london",
+                email: "london@example.com",
+                number: "12345678901"
+            };
+
+            component.contact = {
+                id: 2,
+                name: "chauncey",
+                email: "chauncey@example.com",
+                number: "1234567890"
+            };
+
+            component.isLoading = false; 
+            fixture.detectChanges();
+            const nameInput = rootElement.query(By.css('.contact-name'));
+            tick();
+            expect(nameInput.nativeElement.value).toBe('chauncey');
+
+        }))
+    });
 });
 
- 
+/**
+ * Isolated tests don’t rely on the built-in Angular classes and methods. 
+ * You can test them as if you were using normal TypeScript classes. 
+ * Sometimes for your tests you’ll have to render components one level deep without rendering child components. 
+ * To accomplish that, you’ll use shallow tests.
+ * 
+ * Using the fakeAsync function, you can ensure that all asynchronous calls are completed within a test before the assertions are executed. 
+ * Doing so prevents test from failing unexpectedly before all of the asynchronous calls are completed.
+ * 
+ * Use the ComponentFixture class to debug an element.
+ * 
+ * TestBed is a class that you use to set up and configure your tests. 
+ * 
+ * Use it anytime you want to write a unit test that tests components, directives, and services.
+ * 
+ * You can use DebugElement to dive deeper into an element. 
+ * You can think of it as the HTMLElement, with methods and properties added that can be useful for debugging elements.
+ * 
+ * The nativeElement object is an Angular wrapper around the built-in DOM native element.
+ * 
+ */
