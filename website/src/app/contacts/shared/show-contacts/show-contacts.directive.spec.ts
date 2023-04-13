@@ -45,3 +45,10 @@ describe('Directive: ShowContactsDirective', () => {
 
     afterEach(() => {fixture = null})
 })
+
+/**
+ * The configureTestingModule method takes in an object that has to use the TestModuleMetadata interface. 
+ * You can either create a variable that sets the type to TestModuleMetadata and 
+ * then pass the variable into the configureTestingModule method, 
+ * or create an object with the relevant configuration data and then pass that into the configureTestingModule method.
+ */
