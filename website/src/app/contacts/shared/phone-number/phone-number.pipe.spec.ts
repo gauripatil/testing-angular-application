@@ -60,24 +60,38 @@ describe('PhoneNumberPipe Pipe Test', () => {
     })
 
     describe('country code parameter tests', () => {
-        it('should add respective country code', () => { 
+        it('should add respective country code', () => {
             const testInputPhoneNumber = '7035550123';
             const format = 'default';
             const countryCode = 'us';
             const transformedPhoneNumber = phoneNumber.transform(testInputPhoneNumber, format, countryCode);
-            const expectedResult = '+1 (703) 555-0123'; 
+            const expectedResult = '+1 (703) 555-0123';
         })
 
-        it('should not add anything if the country code is unrecongized', () => { 
+        it('should not add anything if the country code is unrecongized', () => {
             const testInputPhoneNumber = '7035550123';
             const format = 'default';
             const countryCode = 'zz';
             const transformedPhoneNumber = phoneNumber.transform(testInputPhoneNumber, format, countryCode);
-            const expectedResult = '(703) 555-0123'; 
+            const expectedResult = '(703) 555-0123';
         })
     });
 
 
 
     afterEach(() => { phoneNumber = null });
-})
+});
+
+/**
+ * Because pipes only take in a value as input, transform that value, and then return transformed input, 
+ * testing them is straightforward. 
+ * That’s because they’re pure functions, which means they have no side effects. 
+ * 
+ * Side effects are changes that occur outside a function after that function is executed. 
+ * A common side effect is the changing of a global variable.
+ * 
+ * When you’re testing pipes, you’re mainly testing the transform method that’s included in every pipe. 
+ * The transform method is what takes in the different parameters you want to manipulate, 
+ * performs the manipulation, and then returns the changed values.
+ * 
+ */
