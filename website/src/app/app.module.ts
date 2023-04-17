@@ -20,6 +20,7 @@ import { ContactService } from './contacts/shared/services';
 import { FavoriteIconDirective } from './contacts/shared/favorite-icon';
 import { PageNotFoundComponent } from './page-not-found-component';
 import { PhoneNumberPipe } from './contacts/shared/phone-number';
+import { PreferencesService } from './contacts/shared/services/preferences.service';
 import { NewContactComponent } from './contacts/new-contact/new-contact.component';
 import { ShowContactsDirective } from './contacts/shared/show-contacts';
 
@@ -61,6 +62,7 @@ import { InvalidPhoneNumberModalComponent } from './contacts/shared';
   providers: [
     ContactService,
     ContactFeedService,
+    PreferencesService
   ],
   bootstrap: [AppComponent]
 })

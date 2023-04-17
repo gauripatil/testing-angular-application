@@ -23,9 +23,14 @@ describe('PreferencesService', () => {
     it('should save a preference', inject(
       [PreferencesService, BrowserStorage],
       (service: PreferencesService, browserStorage: BrowserStorageMock) => {
+
+        spyOn(browserStorage, 'setItem').and.callThrough();
+        service.saveProperty({ key: 'myProperty', value: 'myValue' });
+        expect(browserStorage.setItem).toHaveBeenCalledWith('myProperty', 'myValue');
         
       })
     )
+
 
   })
 });
