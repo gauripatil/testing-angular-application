@@ -1,36 +1,49 @@
 import { TestBed, inject } from '@angular/core/testing';
-import { BrowserStorage } from './browser-storage.service';
-
 import { PreferencesService } from './preferences.service';
+import { BrowserStorage } from "./browser-storage.service";
+
+import { logging } from "selenium-webdriver";
+import Preferences = logging.Preferences;
 
 class BrowserStorageMock {
-  getItem = (property: string) => ({ key: 'testProp', value: 'testValue '});
-  setItem = ({ key: key, value: value }) => {};
+    getItem = (property: string) => ({ key: 'testProp', value: 'testValue '});
+    setItem = ({ key: key, value: value }) => {};
 }
 
-
 describe('PreferencesService', () => {
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [PreferencesService, {
-        provide: BrowserStorage, useClasss: BrowserStorageMock
-      }]
+
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            providers: [PreferencesService, {
+                provide: BrowserStorage, useClass: BrowserStorageMock
+            }]
+        });
+
     });
-  });
 
-  describe('save preferences', () => {
+    it('should create the Preferences Service', inject([PreferencesService], (service: PreferencesService) => {
+        expect(service).toBeTruthy();
+    }));
 
-    it('should save a preference', inject(
-      [PreferencesService, BrowserStorage],
-      (service: PreferencesService, browserStorage: BrowserStorageMock) => {
+    describe('save preferences', () => {
 
-        spyOn(browserStorage, 'setItem').and.callThrough();
-        service.saveProperty({ key: 'myProperty', value: 'myValue' });
-        expect(browserStorage.setItem).toHaveBeenCalledWith('myProperty', 'myValue');
-        
-      })
-    )
+        it('should save a preference', inject([PreferencesService, BrowserStorage],
+            (service: PreferencesService, browserStorage: BrowserStorageMock) => {
 
+                spyOn(browserStorage, 'setItem').and.callThrough();
+                service.saveProperty({ key: 'myProperty', value: 'myValue' });
+                expect(browserStorage.setItem).toHaveBeenCalledWith('myProperty', 'myValue');
+            })
+        );
 
-  })
+        it('saveProperty should require a non-zero length key', inject([PreferencesService],
+            (service: PreferencesService) => {
+
+                const throws = () =>  service.saveProperty({ key: '', value: '' });
+
+                expect(throws).toThrowError();
+            })
+        );
+    });
+
 });
