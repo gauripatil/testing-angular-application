@@ -22,4 +22,9 @@ export class PreferencesService {
   }
 
 
+  public getProperty(key: string) : any {
+    return this.browserStorage.getItem(key);
+  }
+
+
 }
