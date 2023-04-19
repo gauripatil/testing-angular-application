@@ -48,6 +48,22 @@ describe('PreferencesService', () => {
                 const throws = () => service.saveProperty({ key: '', value: '' });
                 // Expects the function to throw an error
                 expect(throws).toThrowError();
+                
+              
+              /**
+               * Normally, if a function in a test is executed and throws an error, 
+               * it causes the whole test to fail. 
+               * Because this test is meant to ensure that the function throws an exception, Jasmine needs more setup. 
+               * To solve this puzzle, the test needs to define a function that itself calls the function that 
+               * will throw the error. 
+               * This test function for setting up the assertion is called shouldThrow. 
+               * When you provide this function to Jasmine in the expect block, 
+               * and then use the toThrowError() matcher, Jasmine will execute the function and 
+               * anticipate that an error will be thrown as a result. 
+               * When Jasmine executes shouldThrow, the function will throw an error, 
+               * and you can verify that the error value has the correct type and error message. 
+               * For the purposes of this test, you just need to check that an error was thrown.
+               */
             })
         );
     });
