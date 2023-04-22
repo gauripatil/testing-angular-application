@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { BrowserStorageAsync } from "./browser-storage.service";
 import { IContactPreference } from "./preferences.service";
 
+@Injectable()
 export class PreferencesAsyncService {
     constructor(private browserStorage: BrowserStorageAsync) { }
     
@@ -17,3 +18,4 @@ export class PreferencesAsyncService {
         }
     }
 }
+
