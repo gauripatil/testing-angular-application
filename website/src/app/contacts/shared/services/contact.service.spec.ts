@@ -7,7 +7,7 @@ import { ContactService } from './contact.service';
 describe('ContactsService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ HttpClientTestingModule ],
+      imports: [ HttpClientTestingModule ], // Configures the TestBed to use HttpClientTestingModule
       providers: [ ContactService ]
     });
   });
@@ -15,6 +15,8 @@ describe('ContactsService', () => {
   describe('getContacts', () => {
 
     let contactService: ContactService;
+      
+    // Assigns a reference to the HttpTestingController for interacting with the HttpClientTestingModule  
     let httpTestingController: HttpTestingController;
     let mockContact: any;
 
@@ -26,16 +28,20 @@ describe('ContactsService', () => {
 
     it('should GET a list of contacts', () => {
 
+        //Exercises the contactService method that makes a call to the server, 
+        // which emits an observable later, so is not evaluated on this line
         contactService.getContacts().subscribe((contacts) => {
-        console.log('result >>>>>>>', JSON.stringify(contacts));
-        expect(contacts[0]).toEqual(mockContact);
-      });
+            console.log('result >>>>>>>', JSON.stringify(contacts));
+            expect(contacts[0]).toEqual(mockContact);
+        });
+        
 
-      const request = httpTestingController.expectOne('app/contacts');
+        const request = httpTestingController.expectOne('app/contacts');
+        // Causes the httpTestingController to emit the value being flushed
+        request.flush([mockContact]);
 
-      request.flush([mockContact]);
-
-      httpTestingController.verify();
+        // Verifies there are no outstanding requests
+        httpTestingController.verify();
     });
   });
 });
