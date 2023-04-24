@@ -1,27 +1,41 @@
-import {
-    TestBed, inject
-} from "@angular/core/testing";
+import { TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
-import {
-    ContactService
-} from "./contact.service";
-
-/**
- * Angular includes a decorator for services, @Injectable, 
- * that’s a convenient way to mark your service as a class 
- * that can serve as a provider for Angular’s dependency injection system. 
- * The decorator tells Angular that the service itself has its own dependencies that need to be resolved. 
- */
+import { ContactService } from './contact.service';
 
 
-describe('ContactService', () => {
+describe('ContactsService', () => {
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [ HttpClientTestingModule ],
+      providers: [ ContactService ]
+    });
+  });
+
+  describe('getContacts', () => {
+
+    let contactService: ContactService;
+    let httpTestingController: HttpTestingController;
+    let mockContact: any;
+
     beforeEach(() => {
-        TestBed.configureTestingModule({
-            providers: [ContactService]
-        })
-    })
+      contactService = TestBed.get(ContactService);
+      httpTestingController = TestBed.get(HttpTestingController);
+      mockContact = { id: 100, name: 'Erin Dee', email: 'edee@example.com' };
+    });
 
-    it('should...', inject([ContactService], (service: ContactService) => {
-        expect(service).toBeTruthy();
-    }));
-} )
+    it('should GET a list of contacts', () => {
+
+        contactService.getContacts().subscribe((contacts) => {
+        console.log('result >>>>>>>', JSON.stringify(contacts));
+        expect(contacts[0]).toEqual(mockContact);
+      });
+
+      const request = httpTestingController.expectOne('app/contacts');
+
+      request.flush([mockContact]);
+
+      httpTestingController.verify();
+    });
+  });
+});
